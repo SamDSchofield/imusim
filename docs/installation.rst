@@ -95,3 +95,9 @@ If you have problems, you can get help on the `IMUSim mailing list
 
 Once you have installed IMUSim, see the :doc:`IMUSim tutorial <tutorial>` for
 how to get started using it.
+
+
+---
+Notes:
+* You may need to run cython -a imusim/math/*pyx
+* On MacOS, add `#define CYTHON_INLINE` to the top of `imusim/math/quat_splines.c`
