@@ -4,6 +4,8 @@ For more information see http://www.imusim.org/
 
 Copyright (C) 2009-2011 University of Edinburgh
 
+Modified by Sam Schofield (c) 2021
+
 IMUSim was written by Alex Young and Martin Ling at the School of Informatics,
 University of Edinburgh. This work was supported by the UK Engineering and
 Physical Sciences Research Council under the Basic Technology Research
