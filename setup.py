@@ -22,7 +22,7 @@ from setuptools.extension import Extension
 from Cython.Build import cythonize
 
 import numpy
-
+cythonize("imusim/maths/*.pyx")
 setup(
     name = "imusim",
     version = "0.2",
