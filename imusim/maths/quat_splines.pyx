@@ -140,7 +140,9 @@ cdef class QuaternionBSpline:
             w = QuaternionArray(np.empty((len(t),4)))
             a = QuaternionArray(np.empty((len(t),4)))
             for i,T in enumerate(t/self.dt):
-                q[i],w[i],a[i] = self.evaluate(T)
+                aa, bb, cc = self.evaluate(T)
+                if a is not None:
+                    q[i],w[i],a[i] = aa, bb, cc # Hack to stop it breaking
 
         return q, w.vector, a.vector
 
@@ -150,9 +152,13 @@ cdef class QuaternionBSpline:
         """
         t += 2
         cdef int l = int(math.floor(t))
+        
         cdef int i
         cdef int j
         cdef double B
+        if l-SPLINE_ORDER+1 >= len(self.q):
+            return None, None, None
+        
         cdef Quaternion q0 = self.q[l-SPLINE_ORDER+1]
         cdef Quaternion q = q0.copy()
         cdef quaternion_t *w
@@ -164,7 +170,15 @@ cdef class QuaternionBSpline:
 
         for j in range(SPLINE_ORDER-1):
             i = l - SPLINE_ORDER + 2 + j
-            w = &(<Quaternion>self.w[i])._components
+        
+
+            try:
+                w = &(<Quaternion>self.w[i])._components
+            except:
+                j -= 1
+                i = l - SPLINE_ORDER + 2 + j
+                break
+
             B = self.B(i, SPLINE_ORDER-1, t)
 
             #exp[j] = (w * self.tildeB(i, SPLINE_ORDER, t)).exp()
